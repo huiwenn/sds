@@ -26,7 +26,7 @@ from src.model_utils import build_model
 from src.evaluation import evaluate_segmentation
 from src.torch_utils import torch2numpy
 
-available_datasets = {"bouncing_ball", "3modesystem", "bee"}
+available_datasets = {"bouncing_ball","bouncing_ball_noisy", "3modesystem", "bee"}
 
 
 def train_step(batch, model, optimizer, step, config):
@@ -123,6 +123,11 @@ def plot_results(result, prefix=""):
 def get_dataset(dataset):
     assert dataset in available_datasets, f"Unknown dataset {dataset}!"
     if dataset == "bouncing_ball":
+        train_dataset = datasets.BouncingBallDataset(path="./data/bouncing_ball.npz")
+        test_dataset = datasets.BouncingBallDataset(
+            path="./data/bouncing_ball_test.npz"
+        )
+    elif dataset == "bouncing_ball_noisy":
         train_dataset = datasets.BouncingBallDataset(path="./data/bouncing_ball.npz")
         test_dataset = datasets.BouncingBallDataset(
             path="./data/bouncing_ball_test.npz"

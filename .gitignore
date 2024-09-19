@@ -5,3 +5,4 @@ __pycache__
 data/*.npy
 data/*.npz
 results/*
+Checkpoints/*
