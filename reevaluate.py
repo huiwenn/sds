@@ -37,6 +37,10 @@ def get_test_dataset(config, test_path=Path("./data/")):
             test_dataset = datasets.BouncingBallDataset(
                 path="./data/bouncing_ball_test.npz"
             )
+        elif config["dataset"] == "bouncing_ball_noisy":
+            test_dataset = datasets.BouncingBallDataset(
+                path="./data/bouncing_ball_noisy_test.npz"
+            )
         else:
             raise ValueError(f"There is no {config['dataset']} dataset.")
 

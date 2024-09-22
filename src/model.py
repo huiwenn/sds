@@ -970,7 +970,13 @@ class REDSDS(Base):
         deterministic_x: bool = False,
         deterministic_y: bool = False,
         mean_prediction: bool = False,
+        pred_one_step: bool = False,
     ):
+        if pred_one_step:
+            pred_len = 1
+        else:
+            pred_len = self.prediction_length
+
         if mean_prediction:
             num_samples = 1
         self.eval()
@@ -1061,23 +1067,23 @@ class REDSDS(Base):
         if self.ctrl_transformer is not None:
             future_ctrl_feats = self.ctrl_transformer(
                 feat_static=ctrl_inputs["feat_static_cat"],
-                n_timesteps=self.prediction_length,
+                n_timesteps=pred_len,
                 feat_time=ctrl_inputs["future_time_feat"],
             ).repeat(num_samples, 1, 1)
         #  Unroll using cT, zT and xT
         forecast, z_samples = self._unroll(
             start_state=(cT, zT, xT),
-            T=self.prediction_length,
+            T=pred_len,
             future_ctrl_feats=future_ctrl_feats,
             deterministic_z=deterministic_z,
             deterministic_x=deterministic_x,
             deterministic_y=deterministic_y,
             drop_first=True,
         )
-        forecast = forecast.view([num_samples, B, self.prediction_length, -1])
-        z_samples = z_samples.view([num_samples, B, self.prediction_length, 1])
+        forecast = forecast.view([num_samples, B, pred_len, -1])
+        z_samples = z_samples.view([num_samples, B, pred_len, 1])
         z_samples_oh = torch.zeros(
-            num_samples, B, self.prediction_length, self.K, device=z_samples.device
+            num_samples, B, pred_len, self.K, device=z_samples.device
         )
         z_samples_oh.scatter_(-1, z_samples, 1)
         z_emp_probs = z_samples_oh.mean(0)
@@ -1089,3 +1095,4 @@ class REDSDS(Base):
                 rec_y_with_forecast = target_transformer(rec_y_with_forecast)
 
         return dict(rec_n_forecast=rec_y_with_forecast, z_emp_probs=z_emp_probs)
+    

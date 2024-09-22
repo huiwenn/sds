@@ -174,6 +174,7 @@ def get_network_instances(config):
 
     if (
         config["experiment"] == "bouncing_ball"
+        or config["experiment"] == "bouncing_ball_noisy"
         or config["experiment"] == "3modesystem"
         or config["experiment"] == "bee"
         or config["experiment"] == "gts_univariate"

@@ -26,7 +26,7 @@ from src.model_utils import build_model
 from src.evaluation import evaluate_segmentation
 from src.torch_utils import torch2numpy
 
-available_datasets = {"bouncing_ball","bouncing_ball_noisy", "3modesystem", "bee"}
+available_datasets = {"bouncing_ball", "bouncing_ball_noisy", "3modesystem", "bee"}
 
 
 def train_step(batch, model, optimizer, step, config):
@@ -128,9 +128,9 @@ def get_dataset(dataset):
             path="./data/bouncing_ball_test.npz"
         )
     elif dataset == "bouncing_ball_noisy":
-        train_dataset = datasets.BouncingBallDataset(path="./data/bouncing_ball.npz")
+        train_dataset = datasets.BouncingBallDataset(path="./data/bouncing_ball_noisy.npz")
         test_dataset = datasets.BouncingBallDataset(
-            path="./data/bouncing_ball_test.npz"
+            path="./data/bouncing_ball_noisy_test.npz"
         )
     elif dataset == "3modesystem":
         train_dataset = datasets.ThreeModeSystemDataset(path="./data/3modesystem.npz")
