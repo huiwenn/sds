@@ -144,7 +144,7 @@ def evaluate_gts_dataset(
         transform=input_transform,
         batch_size=batch_size,
         stack_fn=batchify,
-        num_workers=1,
+        #num_workers=1,
     )
 
     def prediction_generator(inference_loader):

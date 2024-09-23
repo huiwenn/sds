@@ -140,19 +140,19 @@ def create_input_transform(
     def seasonal_features(freq):
         offset = to_offset(freq)
         if offset.name == "M":
-            return [MonthOfYear(normalized=False)]
+            return [MonthOfYear()]
         elif offset.name == "W-SUN":
-            return [WeekOfYear(normalized=False)]
+            return [WeekOfYear()]
         elif offset.name == "D":
-            return [DayOfWeek(normalized=False)]
+            return [DayOfWeek()]
         elif offset.name == "B":
-            return [DayOfWeek(normalized=False)]
+            return [DayOfWeek()]
         elif offset.name == "H":
-            return [HourOfDay(normalized=False), DayOfWeek(normalized=False)]
+            return [HourOfDay(), DayOfWeek()]
         elif offset.name == "T":
             return [
-                MinuteOfHour(normalized=False),
-                HourOfDay(normalized=False),
+                MinuteOfHour(),
+                HourOfDay(),
             ]
         else:
             RuntimeError(f"Unsupported frequency {offset.name}")
